@@ -1,0 +1,126 @@
+import type { Dispensary } from "@/lib/types";
+
+/** Snapshot from the Arkansas Cannabis Industry Association directory. Confirm before a visit. */
+export const DISPENSARY_SOURCE = "https://arcannabis.org/arkansas-dispensaries/";
+
+export const DISPENSARIES: Dispensary[] = [
+  { id: "309", name: "The Hill", city: "Fayetteville", address: "2733 N. McConnell Ave, Fayetteville, AR", phone: "800-266-9057", zone: 1 },
+  { id: "121", name: "Purspirit Cannabis Co.", city: "Fayetteville", address: "3390 Martin Luther King Blvd, Fayetteville, AR", phone: "479-957-1973", zone: 1 },
+  { id: "278", name: "The Source", city: "Rogers", address: "4505 W. Poplar Street, Rogers, AR 72756", phone: "479-339-9333", zone: 1 },
+  { id: "189", name: "The Releaf Center", city: "Bentonville", address: "9400 McNelly Road, Bentonville, AR", phone: "479-488-2071", zone: 1 },
+  { id: "113", name: "Osage Creek Dispensary", city: "Eureka Springs", address: "E Van Buren, Eureka Springs, AR 72632", phone: "479-431-4897", zone: 1 },
+  { id: "40", name: "Fiddler's Green Dispensary", city: "Mountain View", address: "16150 Highway 9, Mountain View, AR", phone: "870-269-8600", zone: 2 },
+  { id: "192", name: "Plant Family Therapeutics", city: "Mountain Home", address: "5172 Hwy. 62 E., Mountain Home, AR", phone: "870-709-0800", zone: 2 },
+  { id: "46", name: "Arkansas Natural Products", city: "Clinton", address: "1303 HWY 65 N., Clinton, AR", phone: "501-386-3166", zone: 2 },
+  { id: "155", name: "Enlightened Dispensary – Heber Springs", city: "Heber Springs", address: "3003 Hwy 25 B, Heber Springs, AR 72543", phone: "501-887-7420", zone: 2 },
+  { id: "35", name: "Greenlight West Memphis", city: "West Memphis", address: "3600 N Service Rd, West Memphis, AR 72301", phone: "870-497-2175", zone: 3 },
+  { id: "206", name: "Delta Cannabis Co.", city: "West Memphis", address: "1151 East Service Road, West Memphis, AR", phone: "870-551-3642", zone: 3 },
+  { id: "290", name: "BaM Body and Mind Dispensary", city: "West Memphis", address: "203 N. Oak St, West Memphis, AR 72301", phone: "870-514-3711", zone: 3 },
+  { id: "29", name: "NEA Full Spectrum", city: "Brookland", address: "12001 Highway 49, Brookland, AR", phone: "870-634-6412", zone: 3 },
+  { id: "198", name: "CROP", city: "Jonesboro", address: "2929 S Caraway Rd, Jonesboro, AR 72401", phone: "870-336-2767", zone: 3 },
+  { id: "117", name: "The Greenery", city: "Fort Smith", address: "4520 Phoenix Ave, Fort Smith, AR 72908", phone: "479-551-2235", zone: 4 },
+  { id: "158", name: "River Valley Dispensary", city: "Morrilton", address: "W. Shady Lane, Morrilton, AR", phone: "", zone: 4 },
+  { id: "33", name: "420 Dispensary", city: "Russellville", address: "3506 South Arkansas Ave, Russellville, AR", phone: "479-498-4200", zone: 4 },
+  { id: "162", name: "Enlightened Dispensary – Clarksville", city: "Clarksville", address: "131 Massengale Rd, Clarksville, AR 72830", phone: "479-358-7575", zone: 4 },
+  { id: "258", name: "Good Day Farm Van Buren", city: "Van Buren", address: "1705 Fayetteville Rd, Van Buren, AR 72956", phone: "479-460-4125", zone: 4 },
+  { id: "267", name: "Harvest", city: "Conway", address: "1200 Thomas G Wilson, Conway, AR", phone: "501-504-6065", zone: 5 },
+  { id: "145", name: "Greenlight Little Rock", city: "Little Rock", address: "7303 Kanis Road, Little Rock, AR", phone: "501-236-6906", zone: 5 },
+  { id: "126", name: "Berner's by Good Day Farm", city: "Little Rock", address: "11600 Chenal Pkwy, Little Rock, AR 72211", phone: "501-441-0944", zone: 5 },
+  { id: "249", name: "Natural Relief Dispensary", city: "Sherwood", address: "3107 East Kiehl Ave, Sherwood, AR", phone: "501-487-6045", zone: 5 },
+  { id: "31", name: "Suite 443", city: "Hot Springs", address: "4893/4897 Malvern Avenue, Hot Springs, AR", phone: "501-262-9333", zone: 6 },
+  { id: "21", name: "Green Springs Medical", city: "Hot Springs", address: "309 Seneca Street, Hot Springs, AR", phone: "501-207-0420", zone: 6 },
+  { id: "281", name: "Native Green Wellness Center", city: "Hensley", address: "26225 Highway 167, Hensley, AR", phone: "501-993-0617", zone: 6 },
+  { id: "154", name: "Custom Cannabis", city: "Alexander", address: "10200 HWY 5, Alexander, AR", phone: "501-213-0115", zone: 6 },
+  { id: "32", name: "High Bank Cannabis Co.", city: "Pine Bluff", address: "525 Mallard Loop, Pine Bluff, AR 71603", phone: "870-568-0420", zone: 7 },
+  { id: "19", name: "Greenlight Dispensary", city: "Helena", address: "2000 Martin Luther King Jr Dr, Helena, AR 72342", phone: "870-714-6119", zone: 7 },
+  { id: "222", name: "Hash & Co.", city: "Pine Bluff", address: "110 Girder Field Ladd Rd, Pine Bluff, AR 71601", phone: "870-663-0900", zone: 7 },
+  { id: "272", name: "Good Day Farm Monticello", city: "Monticello", address: "329 US-425, Monticello, AR 71655", phone: "870-412-1244", zone: 7 },
+  { id: "106", name: "The Treatment Cannabis Dispensary", city: "Pine Bluff", address: "416 US-65, Pine Bluff, AR 71601", phone: "870-536-8358", zone: 7 },
+  { id: "245", name: "Zen Leaf Dispensary", city: "El Dorado", address: "3213 North West Avenue, El Dorado, AR 71730", phone: "870-229-1453", zone: 8 },
+  { id: "97", name: "SuperFarm Texarkana", city: "Texarkana", address: "410 Realtor Ave, Texarkana, AR 71854", phone: "870-621-2044", zone: 8 },
+  { id: "161", name: "Good Day Farm Texarkana", city: "Texarkana", address: "4423 East Broad Street, Texarkana, AR", phone: "870-330-4951", zone: 8 },
+  { id: "arkadelphia", name: "Enlightened Dispensary – Arkadelphia", city: "Caddo Valley", address: "192 Valley Street, Caddo Valley, AR 71923", phone: "501-432-4200", zone: 8 },
+];
+
+const NEAR: Record<string, string[]> = {
+  "Little Rock": ["Little Rock", "Sherwood", "Alexander", "Hensley"],
+  "North Little Rock": ["Little Rock", "Sherwood", "Alexander", "Hensley"],
+  Sherwood: ["Sherwood", "Little Rock", "Jacksonville"],
+  Jacksonville: ["Little Rock", "Sherwood"],
+  Maumelle: ["Little Rock", "Sherwood"],
+  Conway: ["Conway", "Little Rock"],
+  Cabot: ["Conway", "Little Rock"],
+  Benton: ["Little Rock", "Alexander"],
+  Bryant: ["Little Rock", "Alexander"],
+  "Hot Springs": ["Hot Springs"],
+  Searcy: ["Little Rock"],
+  "Pine Bluff": ["Pine Bluff"],
+  Fayetteville: ["Fayetteville", "Springdale", "Rogers", "Bentonville"],
+  Springdale: ["Springdale", "Fayetteville", "Rogers", "Bentonville"],
+  Rogers: ["Rogers", "Bentonville", "Fayetteville"],
+  Bentonville: ["Bentonville", "Rogers", "Fayetteville"],
+  "Bella Vista": ["Bentonville", "Rogers"],
+  Centerton: ["Bentonville", "Rogers"],
+  "Siloam Springs": ["Fayetteville", "Rogers"],
+  "Fort Smith": ["Fort Smith", "Van Buren"],
+  "Van Buren": ["Van Buren", "Fort Smith"],
+  Russellville: ["Russellville", "Clarksville"],
+  Jonesboro: ["Jonesboro", "Brookland"],
+  Paragould: ["Jonesboro", "Brookland"],
+  "West Memphis": ["West Memphis"],
+  Texarkana: ["Texarkana"],
+  "El Dorado": ["El Dorado"],
+  "Forrest City": ["West Memphis"],
+  Blytheville: ["Jonesboro", "Brookland"],
+};
+
+export function dispensariesNear(cityName: string) {
+  const names = new Set(NEAR[cityName] ?? [cityName]);
+  return DISPENSARIES.filter((item) => names.has(item.city));
+}
+
+/** Street-level points from the snapshot addresses. A few unmatched streets use the city. */
+export const DISPENSARY_COORDS: Record<string, { lat: number; lng: number }> = {
+  "309": { lat: 36.1017854, lng: -94.1815932 },
+  "121": { lat: 36.0508569, lng: -94.2088021 },
+  "278": { lat: 36.3320585, lng: -94.182686 },
+  "189": { lat: 36.4503742, lng: -94.1724497 },
+  "113": { lat: 36.4226106, lng: -93.7713726 },
+  "40": { lat: 35.8684, lng: -92.1176 },
+  "192": { lat: 36.3402, lng: -92.3175 },
+  "46": { lat: 35.5975, lng: -92.4602 },
+  "155": { lat: 35.516633, lng: -92.0263716 },
+  "35": { lat: 35.1568379, lng: -90.1425093 },
+  "206": { lat: 35.1619859, lng: -90.1696202 },
+  "290": { lat: 35.1494, lng: -90.1848 },
+  "29": { lat: 35.9017, lng: -90.5826 },
+  "198": { lat: 35.8092377, lng: -90.6801349 },
+  "117": { lat: 35.3380383, lng: -94.3833528 },
+  "158": { lat: 35.1772753, lng: -92.722565 },
+  "33": { lat: 35.2411261, lng: -93.1405003 },
+  "162": { lat: 35.4623721, lng: -93.5218834 },
+  "258": { lat: 35.4602266, lng: -94.3566222 },
+  "267": { lat: 35.0597377, lng: -92.4112984 },
+  "145": { lat: 34.741631, lng: -92.3551405 },
+  "126": { lat: 34.749337, lng: -92.407694 },
+  "249": { lat: 34.8316752, lng: -92.1812281 },
+  "31": { lat: 34.479971, lng: -93.0284978 },
+  "21": { lat: 34.4760781, lng: -93.0485739 },
+  "281": { lat: 34.5124785, lng: -92.2073947 },
+  "154": { lat: 34.6268, lng: -92.4465 },
+  "32": { lat: 34.1753695, lng: -92.0073876 },
+  "19": { lat: 34.515231, lng: -90.6338751 },
+  "222": { lat: 34.1748, lng: -91.9352 },
+  "272": { lat: 33.6353897, lng: -91.8015866 },
+  "106": { lat: 34.1947505, lng: -91.9460735 },
+  "245": { lat: 33.2466396, lng: -92.6641005 },
+  "97": { lat: 33.4693753, lng: -94.0392102 },
+  "161": { lat: 33.4645535, lng: -93.9918803 },
+  arkadelphia: { lat: 34.189339, lng: -93.0719812 },
+};
+
+export function dispensaryCities() {
+  return [...new Set(DISPENSARIES.map((item) => item.city))].sort((a, b) =>
+    a.localeCompare(b),
+  );
+}
