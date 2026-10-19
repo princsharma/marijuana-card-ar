@@ -12,7 +12,6 @@ import { linksInSlot } from "@/lib/linking";
 import { pages, pagesInTab } from "@/lib/pages";
 import { schemaFor } from "@/lib/schema";
 import {
-  ADH_FAQS,
   ADH_HOME,
   ADH_RESOURCES,
   CONDITIONS,
@@ -24,6 +23,26 @@ import {
 } from "@/lib/site";
 import { HOME_FAQS } from "@/lib/help";
 import type { SitePage } from "@/lib/types";
+
+function RenewalCta({ bookHref }: { bookHref: string }) {
+  return (
+    <aside className="renew-cta span-12">
+      <div className="renew-cta-price">
+        <p>Evaluation</p>
+        <strong>{usd(PRICES.renewal)}</strong>
+        <span>Paid to this practice</span>
+      </div>
+      <div className="renew-cta-body">
+        <h2>Book the video renewal</h2>
+        <p>The {usd(PRICES.adhPatient)} state fee is separate and is paid to the Arkansas Department of Health.</p>
+      </div>
+      <div className="filters">
+        <Link className="btn btn-primary" href={bookHref}>Book a renewal</Link>
+        <Link className="btn" href="/pricing/">See pricing</Link>
+      </div>
+    </aside>
+  );
+}
 
 function EndLinks({ page, stacked = false }: { page: SitePage; stacked?: boolean }) {
   return (
@@ -50,213 +69,281 @@ function ConditionBadges() {
   );
 }
 
-const RENEWAL_STEPS: { title: string; src: string; alt: string; text: string }[] = [
+const PHYSICIAN_PHOTO = {
+  src: "/visuals/johnathan-miller.webp",
+  alt: "Dr. Johnathan Miller at a laptop for a video visit.",
+};
+
+const HOME_GUIDES = [
   {
-    title: "Book the video visit",
-    src: "/visuals/step-book.jpg",
-    alt: "A person choosing a time on a laptop calendar.",
-    text: "Book if you already have an Arkansas card. You can renew up to 60 days before it expires.",
+    href: "/blog/card-renewal/when-to-renew/",
+    kicker: "Renewal",
+    title: "When Can You Renew Your Arkansas Medical Card?",
+    text: "The window opens up to 60 days before the card expires.",
+    src: "/visuals/reading-booklet.jpg",
+    alt: "Hands holding a blank booklet. Illustrative, not a patient record.",
   },
   {
-    title: "Meet the physician",
-    src: "/visuals/step-meet.jpg",
-    alt: "A laptop video visit with a clinician. Not a physician from this practice.",
-    text: "The visit is video with an Arkansas-licensed physician. A phone call does not qualify.",
+    href: "/blog/card-renewal/renewal-cost/",
+    kicker: "Cost",
+    title: "Arkansas Medical Card Renewal Cost",
+    text: "The evaluation and the separate state fee.",
+    src: "/visuals/state-fee.jpg",
+    alt: "An envelope on a desk, set aside for a separate fee. Illustrative.",
   },
   {
-    title: "Submit to the state",
-    src: "/visuals/step-submit.jpg",
-    alt: "Hands placing a form into an envelope.",
-    text: "If approved, submit the new written certification within 30 days and pay the state fee.",
+    href: "/blog/first-card/can-you-get-card-online/",
+    kicker: "First card",
+    title: "Can You Get an Arkansas Medical Card Online?",
+    text: "A first certification stays in person. A renewal can be video.",
+    src: "/visuals/video-only.jpg",
+    alt: "A laptop open to a video visit. Illustrative, not a physician from this practice.",
   },
   {
-    title: "Print the card",
-    src: "/visuals/step-print.jpg",
-    alt: "A home printer with a blank card being picked up.",
-    text: "Print the card when the state approves it, or ask for it to be mailed. There is no temporary card.",
+    href: "/blog/arkansas-rules/is-weed-legal-in-arkansas/",
+    kicker: "Rules",
+    title: "Is Weed Legal in Arkansas? Medical vs Recreational",
+    text: "Medical use and adult-use are not the same question in Arkansas.",
+    src: "/visuals/records-folder.jpg",
+    alt: "A closed folder and a pen. Illustrative, not a record from this practice.",
   },
 ];
 
-function RenewalSteps() {
-  return (
-    <div className="bento">
-      {RENEWAL_STEPS.map((step, index) => (
-        <article key={step.title} className="tile span-3 step-photo">
-          <div className="photo-frame step-frame">
-            <Image src={step.src} alt={step.alt} fill sizes="(max-width: 640px) 100vw, 280px" />
-            <p className="step-badge">Step {index + 1}</p>
-          </div>
-          <div className="step-body">
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-
 function HomePage({ page }: { page: SitePage }) {
   return (
-    <>
-      <section className="wrap bento-wrap">
-        <div className="bento">
-          <div className="tile tile-navy span-7 hero-tile">
-            <p className="kicker">Renewals by video · Arkansas only</p>
+    <div className="hp">
+      <section className="hp-hero">
+        <div className="hp-wrap hp-hero-grid">
+          <div>
+            <p className="hp-eye">Already have a card</p>
             <h1>{page.title}</h1>
-            <p className="lede">
-              Already have a card? Renew with an Arkansas-licensed physician on a video visit.
-              Audio-only renewals are not allowed.
+            <p className="hp-lede">
+              One video visit. If you are approved, you get a written certification, then you submit it to the state for your card.
             </p>
-            <p className="hero-note">
-              A first certification cannot be completed by telemedicine. If you do not have a card yet, start on{" "}
-              <Link href="/new-patients/">new patients</Link>.
+            <div className="hp-actions">
+              <a className="hp-btn hp-btn-solid" href="#booking">Book a renewal</a>
+              <Link className="hp-btn" href="/how-it-works/">See the steps</Link>
+            </div>
+            <p className="hp-note">
+              A first card cannot be done by video. <Link href="/new-patients/">New patients start here.</Link>
             </p>
-            <div className="filters">
-              <a className="btn btn-primary" href="#booking">Book a renewal</a>
-              <Link className="btn" href="/pricing/">See pricing</Link>
-            </div>
-            <p className="lede">Renewal evaluation {usd(PRICES.renewal)}, plus the separate {usd(PRICES.adhPatient)} state fee.</p>
           </div>
-          <div className="tile span-5 hero-photo">
-            <Image
-              src="/visuals/hero-visit.jpg"
-              alt="A patient joining a video visit on a laptop. Not a photograph of a physician from this practice."
-              fill
-              priority
-              sizes="(max-width: 980px) 100vw, 420px"
-            />
-            <p className="hero-caption">Video visit with a written certification if you are approved.</p>
+          <div className="hp-hero-stage">
+            <figure className="hp-hero-photo">
+              <Image src={PHYSICIAN_PHOTO.src} alt={PHYSICIAN_PHOTO.alt} fill priority sizes="(max-width: 980px) 100vw, 560px" />
+            </figure>
+            <p className="hp-hero-price">
+              <strong>{usd(PRICES.renewal)}</strong>
+              <span>Evaluation</span>
+            </p>
+            <div className="hp-hero-card">
+              <figure>
+                <Image src={PHYSICIAN_PHOTO.src} alt="" fill sizes="48px" />
+              </figure>
+              <div>
+                <strong>Dr. Johnathan Miller</strong>
+                <span>Named for these video renewals. The Arkansas licence still has to be confirmed.</span>
+              </div>
+              <Link href="/doctors/johnathan-miller/">Profile</Link>
+            </div>
           </div>
         </div>
-        <div className="bento">
-          <article className="tile span-3 photo-tile">
-            <div className="photo-frame">
-              <Image src="/visuals/days-60.jpg" alt="A blank desk calendar." fill sizes="280px" />
-            </div>
-            <div><strong>60 days</strong><p>Renew before the card expires.</p></div>
-          </article>
-          <article className="tile span-3 photo-tile">
-            <div className="photo-frame">
-              <Image src="/visuals/video-only.jpg" alt="A laptop open to a video visit." fill sizes="280px" />
-            </div>
-            <div><strong>Video only</strong><p>Audio-only cannot renew a certification.</p></div>
-          </article>
-          <article className="tile span-3 photo-tile">
-            <div className="photo-frame">
-              <Image src="/visuals/wait-14.jpg" alt="A clock and a sealed envelope." fill sizes="280px" />
-            </div>
-            <div><strong>14 days</strong><p>State processing. No temporary card.</p></div>
-          </article>
-          <article className="tile span-3 photo-tile">
-            <div className="photo-frame">
-              <Image src="/visuals/clinic-visit.jpg" alt="A small clinic entrance." fill sizes="280px" />
-            </div>
-            <div><strong>In person</strong><p>First certifications stay in clinic.</p></div>
-          </article>
+      </section>
+
+      <section className="hp-block" aria-label="What this visit includes">
+        <div className="hp-wrap">
+          <div className="hp-intro">
+            <h2>What this visit includes</h2>
+            <p>Four facts about a renewal. Nothing here is a guarantee of approval.</p>
+          </div>
+          <ul className="hp-features">
+            <li className="hp-accent">
+              <span className="hp-ico"><LineIcon name="visit" /></span>
+              <strong>Video visit</strong>
+              <span>A phone call does not qualify.</span>
+            </li>
+            <li>
+              <span className="hp-ico"><LineIcon name="list" /></span>
+              <strong>If approved</strong>
+              <span>A new written certification.</span>
+            </li>
+            <li>
+              <span className="hp-ico"><LineIcon name="fee" /></span>
+              <strong>{usd(PRICES.adhPatient)} state fee</strong>
+              <span>Paid to the Arkansas Department of Health.</span>
+            </li>
+            <li>
+              <span className="hp-ico"><LineIcon name="id" /></span>
+              <strong>60 days</strong>
+              <span>Book before the card expires.</span>
+            </li>
+          </ul>
         </div>
       </section>
-      <section className="wrap bento-wrap">
-        <h2>How a renewal works</h2>
-        <RenewalSteps />
-      </section>
-      <section className="wrap bento-wrap">
-        <div className="bento">
-          <article className="tile span-6 photo-tile">
-            <div className="photo-frame first-frame">
-              <Image
-                src="/visuals/who-ready.jpg"
-                alt="A person at home choosing a time on a laptop. Illustrative, not a patient of this practice."
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
+
+      <section className="hp-block">
+        <div className="hp-wrap">
+          <div className="hp-intro">
+            <p className="hp-eye">In this order</p>
+            <h2>A renewal has four parts.</h2>
+            <p>The physician visit is only the second one. Each part has to happen before the next.</p>
+          </div>
+          <div className="hp-orbit">
+            <div className="hp-orbit-col">
+              <article><span>01</span><h3>Book the visit</h3><p>Choose a video time up to 60 days before your Arkansas card expires.</p></article>
+              <article><span>03</span><h3>Submit to the state</h3><p>Send the certification within 30 days and pay the {usd(PRICES.adhPatient)} state fee there.</p></article>
             </div>
-            <div>
-              <h2>Who can book here</h2>
-              <ul>
-                <li>People who already hold an Arkansas medical marijuana card</li>
-                <li>Arkansas residents renewing by video</li>
-                <li>Patients whose card is inside the 60-day renewal window, or who want a reminder</li>
-              </ul>
+            <figure className="hp-orbit-photo">
+              <Image src="/visuals/video-only.jpg" alt="A laptop open to a video visit. Illustrative, not a physician from this practice." fill sizes="280px" />
+            </figure>
+            <div className="hp-orbit-col">
+              <article><span>02</span><h3>Meet the physician</h3><p>The visit is on video with the physician named for these renewals.</p></article>
+              <article><span>04</span><h3>Print the card</h3><p>State processing can take up to 14 days. There is no temporary card.</p></article>
             </div>
-          </article>
-          <article className="tile span-6 photo-tile">
-            <div className="photo-frame first-frame">
-              <Image
-                src="/visuals/clinic-hallway.jpg"
-                alt="An empty clinic hallway. A first card is in person, and this practice does not sell cannabis."
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </div>
-            <div>
-              <h2>Who should not book a renewal</h2>
-              <ul>
-                <li>First-time patients. Use the new-patient page.</li>
-                <li>Current military and National Guard members. The registry bars them.</li>
-                <li>Anyone hoping to buy cannabis here. This practice does not sell it.</li>
-              </ul>
-            </div>
-          </article>
+          </div>
+          <p className="hp-center-link"><Link href="/how-it-works/">Open the full guide</Link></p>
         </div>
       </section>
-      <section className="wrap bento-wrap">
-        <h2>Physicians and reviews</h2>
-        <div className="bento">
-          <article className="tile span-6 profile-card">
-            <div className="photo-frame profile-frame">
-              <Image
-                src="/visuals/physician-visit.jpg"
-                alt="An illustrative video visit. Not a photograph of Dr. Johnathan Miller or any physician from this practice."
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-              <p className="hero-caption">Illustrative video visit. Not a physician from this practice.</p>
-            </div>
-            <div className="profile-body">
-              <h3><Link href="/doctors/johnathan-miller/">Dr. Johnathan Miller</Link></h3>
-              <p>Named in this plan as an Arkansas physician. The licence still has to be confirmed before launch.</p>
-            </div>
-          </article>
-          <article className="tile span-6 profile-card">
-            <div className="photo-frame profile-frame">
-              <Image
-                src="/visuals/patient-reviews.jpg"
-                alt="A phone showing an empty review form. No patient reviews are displayed."
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </div>
-            <div className="profile-body">
-              <h3><Link href="/reviews/">Patient reviews</Link></h3>
-              <p>Verified Arkansas reviews will appear after a review system is connected. None are invented here.</p>
-            </div>
-          </article>
+
+      <section className="hp-block">
+        <div className="hp-wrap">
+          <div className="hp-intro">
+            <p className="hp-eye">Physician</p>
+            <h2>Who you meet on video.</h2>
+            <p>One physician is named for these renewals. A licence number, medical school, and patient reviews are not published here because they were not confirmed.</p>
+          </div>
+          <div className="hp-people">
+            <article className="hp-person hp-accent">
+              <figure>
+                <Image src={PHYSICIAN_PHOTO.src} alt={PHYSICIAN_PHOTO.alt} fill sizes="120px" />
+              </figure>
+              <h3>Dr. Johnathan Miller</h3>
+              <p>Video renewals for people who already hold an Arkansas card.</p>
+              <Link className="hp-btn hp-btn-accent" href="/doctors/johnathan-miller/">Read the profile</Link>
+            </article>
+            <article className="hp-person">
+              <span className="hp-ico"><LineIcon name="user" /></span>
+              <h3>Doctor directory</h3>
+              <p>Profiles published for this practice. No other physicians are listed yet.</p>
+              <Link className="hp-btn" href="/doctors/">Open the directory</Link>
+            </article>
+          </div>
         </div>
       </section>
-      <section className="wrap bento-wrap">
-        <div className="faq-split">
-          <figure className="faq-banner">
-            <Image
-              src="/visuals/faq-banner.jpg"
-              alt="A patient at home during a video appointment."
-              fill
-              sizes="(max-width: 860px) 100vw, 420px"
-            />
+
+      <section className="hp-block">
+        <div className="hp-wrap hp-split">
+          <figure className="hp-split-photo">
+            <Image src="/visuals/who-ready.jpg" alt="A desk set up for a video visit. Illustrative." fill sizes="(max-width: 980px) 100vw, 560px" />
           </figure>
-          <div className="faq-copy">
-            <h2>Common questions</h2>
-            <FaqAccordion items={HOME_FAQS} />
+          <div>
+            <p className="hp-eye">Before the visit</p>
+            <h2>Bring the card you already hold.</h2>
+            <ul className="hp-plain">
+              <li>Your current Arkansas medical marijuana card</li>
+              <li>An Arkansas licence or state ID</li>
+              <li>A device that can do video</li>
+            </ul>
+            <Link className="hp-btn hp-btn-solid" href="/how-it-works/">What to have ready</Link>
           </div>
         </div>
       </section>
-      <section className="band">
-        <div className="wrap section grid-2">
-          <ReminderForm />
-          <BookingForm />
+
+      <section className="hp-conditions">
+        <div className="hp-wrap hp-conditions-grid">
+          <div>
+            <p className="hp-eye">State form</p>
+            <h2>The 18 qualifying conditions.</h2>
+            <p>The physician decides whether a condition qualifies. A name on this list does not guarantee a certification or a card. Current military and National Guard members are barred, and this practice does not sell cannabis.</p>
+            <div className="hp-actions">
+              <Link className="hp-btn hp-btn-solid" href="/eligibility/">Check eligibility</Link>
+              <Link className="hp-btn" href="/conditions/">All condition guides</Link>
+            </div>
+          </div>
+          <ul className="hp-condition-list">
+            {CONDITIONS.map((condition) => (
+              <li key={condition.name}>
+                {condition.href ? <Link href={condition.href}>{condition.name}</Link> : condition.name}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
-    </>
+
+      <section className="hp-fees">
+        <div className="hp-wrap hp-fee-grid">
+          <div className="hp-fee hp-fee-practice">
+            <p>Paid to this practice</p>
+            <strong>{usd(PRICES.renewal)}</strong>
+            <span>The video evaluation. Book it on this page.</span>
+            <a className="hp-btn hp-btn-accent" href="#booking">Book a renewal</a>
+          </div>
+          <div className="hp-fee hp-fee-state">
+            <p>Paid to the state</p>
+            <strong>{usd(PRICES.adhPatient)}</strong>
+            <span>The patient card fee. This practice does not collect it.</span>
+            <Link className="hp-btn" href="/pricing/">See the full fee list</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="hp-guides">
+        <div className="hp-wrap">
+          <div className="hp-section-head">
+            <h2>From the guides.</h2>
+            <Link href="/blog/">All articles</Link>
+          </div>
+          <div className="hp-guide-grid">
+            {HOME_GUIDES.map((guide) => (
+              <article key={guide.href}>
+                <figure className="hp-guide-photo">
+                  <Image src={guide.src} alt={guide.alt} fill sizes="(max-width: 640px) 100vw, 280px" />
+                </figure>
+                <p className="hp-eye">{guide.kicker}</p>
+                <h3><Link href={guide.href}>{guide.title}</Link></h3>
+                <p>{guide.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="hp-faq">
+        <div className="hp-wrap hp-faq-grid">
+          <div>
+            <p className="hp-eye">Questions</p>
+            <h2>Before you book.</h2>
+            <p>Verified reviews are not on this build yet. <Link href="/reviews/">The reviews page</Link> stays empty until a review system is connected.</p>
+            <Link className="hp-text-link" href="/faq/">Read the full FAQ</Link>
+          </div>
+          <FaqAccordion items={HOME_FAQS} />
+        </div>
+      </section>
+
+      <section className="hp-close">
+        <div className="hp-wrap hp-close-grid">
+          <div>
+            <p className="hp-eye">Evaluation {usd(PRICES.renewal)}</p>
+            <h2>Book the video renewal.</h2>
+            <p>The {usd(PRICES.adhPatient)} state fee is separate and is paid to the Arkansas Department of Health.</p>
+          </div>
+          <div className="hp-actions">
+            <a className="hp-btn hp-btn-accent" href="#booking">Book a renewal</a>
+            <Link className="hp-btn hp-btn-ghost" href="/pricing/">See pricing</Link>
+          </div>
+          <figure className="hp-close-photo">
+            <Image src={PHYSICIAN_PHOTO.src} alt="" fill sizes="180px" />
+          </figure>
+        </div>
+      </section>
+
+      <section className="hp-book">
+        <div className="hp-wrap hp-book-grid">
+          <BookingForm />
+          <ReminderForm />
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -565,12 +652,12 @@ const RENEWAL_PATH: {
   {
     title: "Meet the physician",
     short: "A video visit, then a written certification if approved.",
-    src: "/visuals/step-meet.jpg",
-    alt: "A laptop video visit with a clinician. Not a physician from this practice.",
+    src: PHYSICIAN_PHOTO.src,
+    alt: PHYSICIAN_PHOTO.alt,
     text: "The visit is with an Arkansas-licensed physician. If you are approved, you receive a new written certification.",
     facts: [
-      { label: "You meet", text: "An Arkansas-licensed physician on video." },
-      { label: "Photo", text: "The person on screen in this photo is not a physician from this practice." },
+      { label: "You meet", text: "Dr. Johnathan Miller on video." },
+      { label: "Licence", text: "The Arkansas licence still has to be confirmed before launch." },
     ],
   },
   {
@@ -651,24 +738,6 @@ function HowItWorks({ page }: { page: SitePage }) {
           ))}
         </div>
         <div className="bento bento-start">
-          <article className="tile span-4 photo-tile">
-            <div className="photo-frame first-frame">
-              <Image src="/visuals/days-60.jpg" alt="A blank desk calendar." fill sizes="360px" />
-            </div>
-            <div><strong>60 days</strong><p>The renewal window opens before the card expires.</p></div>
-          </article>
-          <article className="tile span-4 photo-tile">
-            <div className="photo-frame first-frame">
-              <Image src="/visuals/step-submit.jpg" alt="Hands placing a form into an envelope." fill sizes="360px" />
-            </div>
-            <div><strong>30 days</strong><p>Send the new certification to the state inside this window.</p></div>
-          </article>
-          <article className="tile span-4 photo-tile">
-            <div className="photo-frame first-frame">
-              <Image src="/visuals/wait-14.jpg" alt="A clock and a sealed envelope." fill sizes="360px" />
-            </div>
-            <div><strong>Up to 14 days</strong><p>Official timing is on the <a href={ADH_FAQS}>ADH FAQ</a>. No temporary card.</p></div>
-          </article>
           <article className="tile span-7">
             <p className="kicker">Before the visit</p>
             <h2>What to have ready</h2>
@@ -687,17 +756,7 @@ function HowItWorks({ page }: { page: SitePage }) {
               <p>This page is for people who already have a card. <Link href="/new-patients/">Read the first-card rules.</Link></p>
             </div>
           </article>
-          <article className="tile tile-navy span-12 story-close">
-            <div>
-              <p className="kicker">Evaluation {usd(PRICES.renewal)}</p>
-              <h2>Book the video renewal</h2>
-              <p>The {usd(PRICES.adhPatient)} state fee is separate and is paid to the Arkansas Department of Health.</p>
-            </div>
-            <div className="filters">
-              <Link className="btn btn-primary" href="/#booking">Book a renewal</Link>
-              <Link className="btn" href="/pricing/">See pricing</Link>
-            </div>
-          </article>
+          <RenewalCta bookHref="/#booking" />
         </div>
         <EndLinks page={page} />
       </section>
@@ -755,6 +814,7 @@ function MoneyPage({ page }: { page: SitePage }) {
             <ConditionBadges />
           </article>
           <EndLinks page={page} />
+          <RenewalCta bookHref="/#booking" />
         </div>
       </>
     );
@@ -770,6 +830,7 @@ function MoneyPage({ page }: { page: SitePage }) {
           <Link href={linksInSlot(page, "intro")[0]?.href ?? "/"}>{linksInSlot(page, "intro")[0]?.label ?? "Continue"}</Link>
         </p>
         <EndLinks page={page} />
+        <RenewalCta bookHref="/#booking" />
       </div>
     </>
   );
@@ -835,6 +896,7 @@ function ArticlePage({ page }: { page: SitePage }) {
           </>
         )}
         <EndLinks page={page} />
+        <div className="page-cta"><RenewalCta bookHref="/#booking" /></div>
       </article>
     </>
   );
@@ -850,6 +912,22 @@ function HubPage({ page }: { page: SitePage }) {
       <div className="wrap bento-wrap">
         {page.path === "/cities/" ? (
           <div className="tile"><CityBrowser /></div>
+        ) : page.path === "/doctors/" ? (
+          <ul className="plain-list bento">
+            {list.map((link) => (
+              <li key={link.href} className="tile span-6 profile-card">
+                {link.href === "/doctors/johnathan-miller/" && (
+                  <div className="photo-frame profile-frame">
+                    <Image src={PHYSICIAN_PHOTO.src} alt={PHYSICIAN_PHOTO.alt} fill sizes="(max-width: 980px) 100vw, 560px" />
+                  </div>
+                )}
+                <div className="profile-body">
+                  <h3><Link href={link.href}>{link.label}</Link></h3>
+                  <p>Named in this plan as an Arkansas physician. The licence still has to be confirmed before launch.</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         ) : (
           <ul className="plain-list bento">
             {list.map((link) => (
@@ -870,6 +948,7 @@ function HubPage({ page }: { page: SitePage }) {
           </div>
         )}
         <EndLinks page={page} />
+        <div className="page-cta"><RenewalCta bookHref="/#booking" /></div>
       </div>
     </>
   );
@@ -1001,6 +1080,7 @@ function ToolPage({ page }: { page: SitePage }) {
         )}
         <p>Official forms and the dispensary list live on the <a href={ADH_RESOURCES}>ADH resources page</a>.</p>
         <EndLinks page={page} />
+        <div className="page-cta"><RenewalCta bookHref="/#booking" /></div>
       </div>
     </>
   );
@@ -1031,6 +1111,7 @@ function ComparePage({ page }: { page: SitePage }) {
         </div>
         <p>This page does not link to competitor sites. Do not treat the empty column as a finding.</p>
         <EndLinks page={page} />
+        <div className="page-cta"><RenewalCta bookHref="/#booking" /></div>
       </div>
     </>
   );
@@ -1090,6 +1171,7 @@ function TrustPage({ page }: { page: SitePage }) {
           </ul>
         )}
         <EndLinks page={page} />
+        <div className="page-cta"><RenewalCta bookHref="/#booking" /></div>
       </div>
     </>
   );

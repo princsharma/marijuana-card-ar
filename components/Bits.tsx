@@ -89,6 +89,12 @@ export function LinkGroup({ title, links }: { title: string; links: PlannedLink[
 }
 
 function defaultMastPhoto(page: SitePage): { src: string; alt: string } {
+  if (page.path === "/doctors/" || page.path === "/doctors/johnathan-miller/") {
+    return {
+      src: "/visuals/johnathan-miller.webp",
+      alt: "Dr. Johnathan Miller at a laptop for a video visit.",
+    };
+  }
   if (page.path === "/pricing/") {
     return { src: "/visuals/state-fee.jpg", alt: "An envelope on a desk, set aside for a separate fee. Illustrative." };
   }

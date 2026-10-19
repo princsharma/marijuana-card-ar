@@ -209,6 +209,7 @@ export function schemaFor(page: SitePage) {
         "@id": physicianId,
         name: "Dr. Johnathan Miller",
         url: pageUrl,
+        image: `${SITE_URL}/visuals/johnathan-miller.webp`,
         memberOf: { "@id": ORG_ID },
         description:
           "Named in this plan as an Arkansas physician. The Arkansas licence number is not published until it is confirmed.",

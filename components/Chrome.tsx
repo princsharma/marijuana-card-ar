@@ -89,7 +89,7 @@ export function Header() {
           </ul>
         </nav>
         <div className="header-actions">
-          <Link className="btn btn-primary" href="/#booking">
+          <Link className="btn btn-on-dark" href="/#booking">
             Renew my card
           </Link>
           <button
