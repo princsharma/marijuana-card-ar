@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { PageView } from "@/components/PageView";
 import { getPage, pages } from "@/lib/pages";
@@ -19,7 +20,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: page.title, description: summary(page.covers) };
 }
 
-export default async function RoutedPage({ params }: Props) {
+export default function RoutedPage({ params }: Props) {
+  return (
+    <Suspense fallback={<p className="wrap section">Loading page…</p>}>
+      <SlugPage params={params} />
+    </Suspense>
+  );
+}
+
+async function SlugPage({ params }: Props) {
   const { slug } = await params;
   const page = getPage(`/${slug.join("/")}/`);
   if (!page) notFound();

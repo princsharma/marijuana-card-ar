@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd, LinkGroup, PageIntro } from "@/components/Bits";
-import { CheckIcon, Mark } from "@/components/Graphics";
+import { CheckIcon } from "@/components/Graphics";
 import { BookingForm, ContactForm, ReminderForm, ReviewForm } from "@/components/Forms";
 import { DispensaryLocator } from "@/components/DispensaryMap";
 import { ChecklistTool, CityBrowser, FaqAccordion, HelpBrowser, QualifyQuiz } from "@/components/Interactive";
@@ -162,8 +162,15 @@ function HomePage({ page }: { page: SitePage }) {
       </section>
       <section className="wrap bento-wrap">
         <div className="bento">
-          <article className="tile tile-mint span-6 media-tile">
-            <Mark name="ok" />
+          <article className="tile span-6 photo-tile">
+            <div className="photo-frame first-frame">
+              <Image
+                src="/visuals/who-ready.jpg"
+                alt="A person at home choosing a time on a laptop. Illustrative, not a patient of this practice."
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </div>
             <div>
               <h2>Who can book here</h2>
               <ul>
@@ -173,8 +180,15 @@ function HomePage({ page }: { page: SitePage }) {
               </ul>
             </div>
           </article>
-          <article className="tile tile-pink span-6 media-tile">
-            <Mark name="stop" />
+          <article className="tile span-6 photo-tile">
+            <div className="photo-frame first-frame">
+              <Image
+                src="/visuals/clinic-hallway.jpg"
+                alt="An empty clinic hallway. A first card is in person, and this practice does not sell cannabis."
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </div>
             <div>
               <h2>Who should not book a renewal</h2>
               <ul>
@@ -463,24 +477,34 @@ function PricingPage({ page }: { page: SitePage }) {
               </article>
             </div>
           </div>
-          <article className="tile tile-mint span-3 stat-tile">
-            <Mark name="video" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/video-only.jpg" alt="A laptop open to a video visit. Illustrative, not a physician from this practice." fill sizes="280px" />
+            </div>
             <div><strong>Included</strong><p>The video evaluation and a certification if approved.</p></div>
           </article>
-          <article className="tile tile-yellow span-3 stat-tile">
-            <Mark name="card" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/step-submit.jpg" alt="Hands placing a form into an envelope." fill sizes="280px" />
+            </div>
             <div><strong>You submit</strong><p>Send the certification to the state within 30 days.</p></div>
           </article>
-          <article className="tile tile-pink span-3 stat-tile">
-            <Mark name="receipt" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/state-fee.jpg" alt="An envelope on a desk, set aside for a separate fee. Illustrative." fill sizes="280px" />
+            </div>
             <div><strong>Not included</strong><p>The {usd(PRICES.adhPatient)} state fee is separate.</p></div>
           </article>
-          <article className="tile tile-sky span-3 stat-tile">
-            <Mark name="stop" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/empty-consult.jpg" alt="An empty consultation desk. This practice does not sell cannabis." fill sizes="280px" />
+            </div>
             <div><strong>Not sold here</strong><p>This practice does not sell cannabis.</p></div>
           </article>
-          <article className="tile span-8 media-tile">
-            <Mark name="clinic" />
+          <article className="tile span-8 photo-tile">
+            <div className="photo-frame first-frame">
+              <Image src="/visuals/clinic-hallway.jpg" alt="An empty clinic hallway. Not a photograph of a physician from this practice." fill sizes="720px" />
+            </div>
             <div>
               <p className="kicker">Not offered online</p>
               <h2>New-patient evaluation {usd(PRICES.newInPerson)}</h2>
@@ -519,34 +543,57 @@ function PricingPage({ page }: { page: SitePage }) {
   );
 }
 
-const RENEWAL_STORY: { kicker: string; title: string; src: string; alt: string; text: string }[] = [
+const RENEWAL_PATH: {
+  title: string;
+  short: string;
+  src: string;
+  alt: string;
+  text: string;
+  facts: { label: string; text: string }[];
+}[] = [
   {
-    kicker: "Step 1",
-    title: "You book from home",
+    title: "Book the video visit",
+    short: "Choose a time if you already have a card.",
     src: "/visuals/step-book.jpg",
     alt: "A person choosing a time on a laptop calendar.",
     text: "If you already have an Arkansas card, you can book up to 60 days before it expires. The renewal visit is video. A phone call does not qualify.",
+    facts: [
+      { label: "You do", text: "Pick a video time from home." },
+      { label: "You need", text: "A current Arkansas card. A first card is not booked here." },
+    ],
   },
   {
-    kicker: "Step 2",
-    title: "You meet the physician on video",
+    title: "Meet the physician",
+    short: "A video visit, then a written certification if approved.",
     src: "/visuals/step-meet.jpg",
     alt: "A laptop video visit with a clinician. Not a physician from this practice.",
-    text: "The visit is with an Arkansas-licensed physician. If you are approved, you receive a new written certification. The person on the screen in this photo is not a physician from this practice.",
+    text: "The visit is with an Arkansas-licensed physician. If you are approved, you receive a new written certification.",
+    facts: [
+      { label: "You meet", text: "An Arkansas-licensed physician on video." },
+      { label: "Photo", text: "The person on screen in this photo is not a physician from this practice." },
+    ],
   },
   {
-    kicker: "Step 3",
-    title: "You submit the certification",
+    title: "Submit the certification",
+    short: "Send it to the state within 30 days.",
     src: "/visuals/step-submit.jpg",
     alt: "Hands placing a form into an envelope.",
-    text: "Send the new written certification to the Arkansas Department of Health within 30 days and pay the separate state fee. This practice does not collect that fee.",
+    text: `Send the new written certification to the Arkansas Department of Health within 30 days and pay the separate ${usd(PRICES.adhPatient)} state fee.`,
+    facts: [
+      { label: "You send", text: "The written certification to the state within 30 days." },
+      { label: "You pay", text: `${usd(PRICES.adhPatient)} to the Arkansas Department of Health. This practice does not collect that fee.` },
+    ],
   },
   {
-    kicker: "Step 4",
-    title: "You print the card when the state approves it",
+    title: "Print the card",
+    short: "After the state approves it. No temporary card.",
     src: "/visuals/step-print.jpg",
     alt: "A home printer with a blank card being picked up.",
-    text: "State processing can take up to 14 days. There is no temporary card. Print the card when it is approved, or ask for it to be mailed.",
+    text: "State processing can take up to 14 days. Print the card when it is approved, or ask for it to be mailed.",
+    facts: [
+      { label: "You wait", text: "Up to 14 days. There is no temporary card." },
+      { label: "You receive", text: "A card to print, or a mailed card if you ask for one." },
+    ],
   },
 ];
 
@@ -560,22 +607,50 @@ function HowItWorks({ page }: { page: SitePage }) {
           alt: "A patient joining a video visit on a laptop at home. Not a photograph of a physician from this practice.",
         }}
       >
-        <p className="lede">A renewal is a video visit, then a submission to the state. A first card is not booked here.</p>
+        <p className="lede">A renewal is a video visit, a written certification, and a submission to the state. A first card is not booked here.</p>
       </PageIntro>
       <section className="wrap bento-wrap">
-        {RENEWAL_STORY.map((chapter, index) => (
-          <article key={chapter.title} className={index % 2 ? "story-row is-flip" : "story-row"}>
-            <figure className="story-photo">
-              <Image src={chapter.src} alt={chapter.alt} fill sizes="(max-width: 980px) 100vw, 640px" />
-              <p className="step-badge">{chapter.kicker}</p>
-            </figure>
-            <div className="story-copy">
-              <h2>{chapter.title}</h2>
-              <p>{chapter.text}</p>
+        <article className="tile path-board">
+          <div className="path-head">
+            <div>
+              <p className="kicker">The visit</p>
+              <h2>Four parts, in order</h2>
             </div>
-          </article>
-        ))}
-        <div className="bento">
+            <p>Each part has to happen before the next. The physician visit is only the second one.</p>
+          </div>
+          <ol className="path-rail">
+            {RENEWAL_PATH.map((step, index) => (
+              <li key={step.title}>
+                <span className="path-num">{index + 1}</span>
+                <strong>{step.title}</strong>
+                <p>{step.short}</p>
+              </li>
+            ))}
+          </ol>
+        </article>
+        <div className="path-list">
+          {RENEWAL_PATH.map((step, index) => (
+            <article key={step.title} className="path-card">
+              <figure className="path-photo">
+                <Image src={step.src} alt={step.alt} fill sizes="(max-width: 980px) 100vw, 320px" />
+                <p className="step-badge">Step {index + 1}</p>
+              </figure>
+              <div className="path-copy">
+                <h2>{step.title}</h2>
+                <p>{step.text}</p>
+                <ul className="path-facts">
+                  {step.facts.map((fact) => (
+                    <li key={fact.label}>
+                      <span>{fact.label}</span>
+                      <p>{fact.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="bento bento-start">
           <article className="tile span-4 photo-tile">
             <div className="photo-frame first-frame">
               <Image src="/visuals/days-60.jpg" alt="A blank desk calendar." fill sizes="360px" />
@@ -584,15 +659,33 @@ function HowItWorks({ page }: { page: SitePage }) {
           </article>
           <article className="tile span-4 photo-tile">
             <div className="photo-frame first-frame">
+              <Image src="/visuals/step-submit.jpg" alt="Hands placing a form into an envelope." fill sizes="360px" />
+            </div>
+            <div><strong>30 days</strong><p>Send the new certification to the state inside this window.</p></div>
+          </article>
+          <article className="tile span-4 photo-tile">
+            <div className="photo-frame first-frame">
               <Image src="/visuals/wait-14.jpg" alt="A clock and a sealed envelope." fill sizes="360px" />
             </div>
             <div><strong>Up to 14 days</strong><p>Official timing is on the <a href={ADH_FAQS}>ADH FAQ</a>. No temporary card.</p></div>
           </article>
-          <article className="tile span-4 photo-tile">
+          <article className="tile span-7">
+            <p className="kicker">Before the visit</p>
+            <h2>What to have ready</h2>
+            <ul className="path-ready">
+              <li>Your current Arkansas medical marijuana card</li>
+              <li>An Arkansas licence or state ID</li>
+              <li>A device that can do video. A phone call does not qualify.</li>
+            </ul>
+          </article>
+          <article className="tile span-5 photo-tile">
             <div className="photo-frame first-frame">
-              <Image src="/visuals/first-visit.jpg" alt="An in-person clinic visit. Not a photograph of a physician from this practice." fill sizes="360px" />
+              <Image src="/visuals/first-visit.jpg" alt="An in-person clinic visit. Not a photograph of a physician from this practice." fill sizes="420px" />
             </div>
-            <div><strong>First cards stay in clinic</strong><p>This page is for people who already have a card. <Link href="/new-patients/">Read the first-card rules.</Link></p></div>
+            <div>
+              <strong>First cards stay in clinic</strong>
+              <p>This page is for people who already have a card. <Link href="/new-patients/">Read the first-card rules.</Link></p>
+            </div>
           </article>
           <article className="tile tile-navy span-12 story-close">
             <div>
@@ -624,20 +717,28 @@ function MoneyPage({ page }: { page: SitePage }) {
         </PageIntro>
         <div className="wrap bento-wrap">
           <div className="bento">
-            <article className="tile tile-yellow span-3 stat-tile">
-              <Mark name="care" />
+            <article className="tile span-3 photo-tile">
+              <div className="photo-frame">
+                <Image src="/visuals/household.jpg" alt="A blank calendar and two mugs on a kitchen table. Illustrative." fill sizes="280px" />
+              </div>
               <div><strong>Age</strong><p>18 or older, or a minor with a parent or guardian caregiver.</p></div>
             </article>
-            <article className="tile tile-sky span-3 stat-tile">
-              <Mark name="card" />
+            <article className="tile span-3 photo-tile">
+              <div className="photo-frame">
+                <Image src="/visuals/closed-wallet.jpg" alt="A closed wallet beside a blank card. Not an Arkansas licence or state ID." fill sizes="280px" />
+              </div>
               <div><strong>Residency</strong><p>Arkansas licence or state ID.</p></div>
             </article>
-            <article className="tile tile-mint span-3 stat-tile">
-              <Mark name="checklist" />
+            <article className="tile span-3 photo-tile">
+              <div className="photo-frame">
+                <Image src="/visuals/conditions-form.jpg" alt="A printed form and a pen on a desk." fill sizes="280px" />
+              </div>
               <div><strong>Condition</strong><p>One of the 18 on the certification form.</p></div>
             </article>
-            <article className="tile tile-pink span-3 stat-tile">
-              <Mark name="stop" />
+            <article className="tile span-3 photo-tile">
+              <div className="photo-frame">
+                <Image src="/visuals/set-aside.jpg" alt="A folder set aside on an empty desk. Illustrative, not a military record." fill sizes="280px" />
+              </div>
               <div><strong>Military</strong><p>Current National Guard and U.S. military members are barred.</p></div>
             </article>
           </div>
@@ -691,8 +792,15 @@ function ArticlePage({ page }: { page: SitePage }) {
       ) : null}
       <div className="wrap bento-wrap">
         <div className="bento">
-          <article className="tile tile-sky span-4">
-            <Mark name={page.pageType === "Condition article" ? "care" : "document"} />
+          <article className="tile span-4 photo-tile">
+            <div className="photo-frame profile-frame">
+              <Image
+                src={medical ? "/visuals/records-folder.jpg" : "/visuals/reading-booklet.jpg"}
+                alt={medical ? "A closed folder and a pen. Illustrative, not a record from this practice." : "Hands holding a blank booklet. Illustrative."}
+                fill
+                sizes="360px"
+              />
+            </div>
           </article>
           <article className="tile span-8">
             <h2>Arkansas details</h2>
@@ -745,9 +853,8 @@ function HubPage({ page }: { page: SitePage }) {
         ) : (
           <ul className="plain-list bento">
             {list.map((link) => (
-              <li key={link.href} className="tile span-4 media-tile">
-                <Mark name="document" />
-                <h2><Link href={link.href}>{link.label}</Link></h2>
+              <li key={link.href} className="tile span-4">
+                <h3><Link href={link.href}>{link.label}</Link></h3>
               </li>
             ))}
           </ul>
@@ -782,20 +889,28 @@ function CityPage({ page }: { page: SitePage }) {
       </PageIntro>
       <div className="wrap bento-wrap">
         <div className="bento">
-          <article className="tile tile-yellow span-3 stat-tile">
-            <Mark name="pin" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/city-street.jpg" alt="A quiet main street. Illustrative, not a specific clinic address." fill sizes="280px" />
+            </div>
             <div><strong>{city.county}</strong><p>County</p></div>
           </article>
-          <article className="tile tile-mint span-3 stat-tile">
-            <Mark name="pin" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/residential-street.jpg" alt="A residential street. Illustrative, not a specific address." fill sizes="280px" />
+            </div>
             <div><strong>{city.region}</strong><p>Region</p></div>
           </article>
-          <article className="tile tile-sky span-3 stat-tile">
-            <Mark name="care" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/household.jpg" alt="A kitchen table. Illustrative, not a census record." fill sizes="280px" />
+            </div>
             <div><strong>{formatPopulation(city.population)}</strong><p>2025 population estimate</p></div>
           </article>
-          <article className="tile tile-pink span-3 stat-tile">
-            <Mark name="document" />
+          <article className="tile span-3 photo-tile">
+            <div className="photo-frame">
+              <Image src="/visuals/state-fee.jpg" alt="An envelope on a desk. Illustrative, not a tax bill." fill sizes="280px" />
+            </div>
             <div><strong>6.5%</strong><p>State sales tax, plus local tax</p></div>
           </article>
         </div>
@@ -834,20 +949,48 @@ function ToolPage({ page }: { page: SitePage }) {
       </DispensaryLocator>
     );
   }
+  if (page.path === "/tools/do-i-qualify/") {
+    return (
+      <>
+        <PageIntro
+          page={page}
+          photo={{
+            src: "/visuals/conditions-form.jpg",
+            alt: "A printed form and a pen on a desk.",
+          }}
+        >
+          <p className="lede">Five questions on your card, residency, and condition. The result points to a renewal or the first-card rules.</p>
+        </PageIntro>
+        <div className="wrap bento-wrap">
+          <div className="bento">
+            <article className="tile span-8">
+              <QualifyQuiz />
+            </article>
+            <article className="tile tile-soft span-4">
+              <p className="kicker">Paper rules only</p>
+              <h2>What this checks</h2>
+              <ul className="qualify-points">
+                <li>Whether you already have an Arkansas card</li>
+                <li>Age, or a parent or guardian caregiver</li>
+                <li>An Arkansas licence or state ID</li>
+                <li>The military exclusion</li>
+                <li>One of the 18 conditions on the state form</li>
+              </ul>
+              <p>It does not decide whether a physician will certify you, and it does not submit anything to the state.</p>
+            </article>
+          </div>
+          <p className="qualify-note">Official forms and the dispensary list live on the <a href={ADH_RESOURCES}>ADH resources page</a>.</p>
+          <EndLinks page={page} />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <PageIntro page={page}>
         <p className="lede">{page.covers}</p>
       </PageIntro>
       <div className="wrap section">
-        {page.path === "/tools/do-i-qualify/" && (
-          <>
-            <p>
-              This quiz checks the paper rules only: age or caregiver status, Arkansas residency, military exclusion, and whether a condition is one of the 18 on the certification form. It does not decide whether a physician will certify you, and it does not submit anything to the state.
-            </p>
-            <QualifyQuiz />
-          </>
-        )}
         {page.path === "/tools/application-checklist/" && (
           <>
             <p>

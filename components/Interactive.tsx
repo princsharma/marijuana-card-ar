@@ -132,18 +132,23 @@ export function QualifyQuiz() {
     };
   })();
 
+  const progress = `${((Math.min(step, 4) + 1) / 5) * 100}%`;
+
   return (
-    <div className="card">
-      <p>
-        Step {Math.min(step + 1, 5)} of 5
-      </p>
+    <div className="qualify">
+      <div className="qualify-progress">
+        <p>Step {Math.min(step + 1, 5)} of 5</p>
+        <div className="progress-track" aria-hidden="true">
+          <div className="progress-bar" style={{ width: progress }} />
+        </div>
+      </div>
       {error ? <p className="error" role="alert">{error}</p> : null}
       {step === 0 && (
         <fieldset>
           <legend>Do you already have an Arkansas medical marijuana card?</legend>
           <div className="quiz-options">
-            <label><input type="radio" name="hasCard" checked={answers.hasCard === "yes"} onChange={() => setAnswers({ ...answers, hasCard: "yes" })} /> Yes, I need a renewal</label>
-            <label><input type="radio" name="hasCard" checked={answers.hasCard === "no"} onChange={() => setAnswers({ ...answers, hasCard: "no" })} /> No, this would be a first card</label>
+            <label><input type="radio" name="hasCard" checked={answers.hasCard === "yes"} onChange={() => setAnswers({ ...answers, hasCard: "yes" })} /> <span>Yes, I need a renewal</span></label>
+            <label><input type="radio" name="hasCard" checked={answers.hasCard === "no"} onChange={() => setAnswers({ ...answers, hasCard: "no" })} /> <span>No, this would be a first card</span></label>
           </div>
         </fieldset>
       )}
@@ -151,8 +156,8 @@ export function QualifyQuiz() {
         <fieldset>
           <legend>Are you a member of the U.S. military or the Arkansas National Guard?</legend>
           <div className="quiz-options">
-            <label><input type="radio" name="military" checked={answers.military === "yes"} onChange={() => setAnswers({ ...answers, military: "yes" })} /> Yes</label>
-            <label><input type="radio" name="military" checked={answers.military === "no"} onChange={() => setAnswers({ ...answers, military: "no" })} /> No</label>
+            <label><input type="radio" name="military" checked={answers.military === "yes"} onChange={() => setAnswers({ ...answers, military: "yes" })} /> <span>Yes</span></label>
+            <label><input type="radio" name="military" checked={answers.military === "no"} onChange={() => setAnswers({ ...answers, military: "no" })} /> <span>No</span></label>
           </div>
         </fieldset>
       )}
@@ -160,16 +165,16 @@ export function QualifyQuiz() {
         <fieldset>
           <legend>Which describes you?</legend>
           <div className="quiz-options">
-            <label><input type="radio" name="residency" checked={answers.residency === "adult"} onChange={() => setAnswers({ ...answers, residency: "adult" })} /> I am 18 or older and I have an Arkansas licence or state ID</label>
-            <label><input type="radio" name="residency" checked={answers.residency === "minor"} onChange={() => setAnswers({ ...answers, residency: "minor" })} /> I am the parent or guardian of a minor patient</label>
-            <label><input type="radio" name="residency" checked={answers.residency === "no"} onChange={() => setAnswers({ ...answers, residency: "no" })} /> Neither</label>
+            <label><input type="radio" name="residency" checked={answers.residency === "adult"} onChange={() => setAnswers({ ...answers, residency: "adult" })} /> <span>I am 18 or older and I have an Arkansas licence or state ID</span></label>
+            <label><input type="radio" name="residency" checked={answers.residency === "minor"} onChange={() => setAnswers({ ...answers, residency: "minor" })} /> <span>I am the parent or guardian of a minor patient</span></label>
+            <label><input type="radio" name="residency" checked={answers.residency === "no"} onChange={() => setAnswers({ ...answers, residency: "no" })} /> <span>Neither</span></label>
           </div>
         </fieldset>
       )}
       {step === 3 && (
         <fieldset>
           <legend>Which listed conditions apply? Select all that apply.</legend>
-          <div className="quiz-options">
+          <div className="quiz-options is-grid">
             {CONDITIONS.map((condition) => (
               <label key={condition.name}>
                 <input
@@ -184,7 +189,7 @@ export function QualifyQuiz() {
                     })
                   }
                 />
-                {condition.name}
+                <span>{condition.name}</span>
               </label>
             ))}
             <label>
@@ -193,13 +198,13 @@ export function QualifyQuiz() {
                 checked={answers.conditions.includes("none")}
                 onChange={() => setAnswers({ ...answers, conditions: answers.conditions.includes("none") ? [] : ["none"] })}
               />
-              None of these
+              <span>None of these</span>
             </label>
           </div>
         </fieldset>
       )}
       {result && (
-        <div role="status">
+        <div className="qualify-result" role="status">
           <h2>{result.title}</h2>
           <p>{result.body}</p>
           <Link className="btn btn-primary" href={result.href}>{result.label}</Link>

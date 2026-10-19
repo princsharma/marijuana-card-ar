@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Mark, mastMark } from "@/components/Graphics";
 import { crumbsFor } from "@/lib/pages";
 import type { PlannedLink, SitePage } from "@/lib/types";
 
@@ -89,6 +88,31 @@ export function LinkGroup({ title, links }: { title: string; links: PlannedLink[
   );
 }
 
+function defaultMastPhoto(page: SitePage): { src: string; alt: string } {
+  if (page.path === "/pricing/") {
+    return { src: "/visuals/state-fee.jpg", alt: "An envelope on a desk, set aside for a separate fee. Illustrative." };
+  }
+  if (page.path === "/eligibility/" || page.path === "/conditions/") {
+    return { src: "/visuals/conditions-form.jpg", alt: "A printed form and a pen on a desk." };
+  }
+  if (page.path === "/faq/" || page.pageType === "FAQ page") {
+    return { src: "/visuals/reading-booklet.jpg", alt: "Hands holding a blank booklet. Illustrative, not a patient record." };
+  }
+  if (page.pageType === "City page" || page.pageType === "Cities hub" || page.path.startsWith("/cities")) {
+    return { src: "/visuals/city-street.jpg", alt: "A quiet main street. Illustrative, not a specific clinic address." };
+  }
+  if (page.pageType.includes("Condition") || page.path.startsWith("/conditions")) {
+    return { src: "/visuals/records-folder.jpg", alt: "A closed folder and a pen. Illustrative, not a record from this practice." };
+  }
+  if (page.pageType === "Compare page" || page.pageType === "Compare hub" || page.path.startsWith("/compare")) {
+    return { src: "/visuals/compare-folders.jpg", alt: "Two plain folders side by side on a desk." };
+  }
+  if (page.pageType === "Tool" || page.pageType === "Tools hub" || page.path.startsWith("/tools")) {
+    return { src: "/visuals/conditions-form.jpg", alt: "A printed form and a pen on a desk." };
+  }
+  return { src: "/visuals/records-folder.jpg", alt: "A closed folder and a pen on a desk. Illustrative." };
+}
+
 export function PageIntro({
   page,
   children,
@@ -98,9 +122,10 @@ export function PageIntro({
   children?: ReactNode;
   photo?: { src: string; alt: string };
 }) {
+  const shot = photo ?? defaultMastPhoto(page);
   return (
     <header className="mast">
-      <div className={photo ? "wrap mast-with-photo" : "wrap"}>
+      <div className="wrap mast-with-photo">
         <div>
           <Breadcrumbs page={page} />
           <p className="kicker">{page.section}</p>
@@ -108,15 +133,9 @@ export function PageIntro({
           <DecideNote page={page} />
           {children}
         </div>
-        {photo ? (
-          <div className="mast-photo">
-            <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 980px) 100vw, 420px" />
-          </div>
-        ) : (
-          <div className="mast-art">
-            <Mark name={mastMark(page)} />
-          </div>
-        )}
+        <div className="mast-photo">
+          <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 980px) 100vw, 420px" />
+        </div>
       </div>
     </header>
   );
